@@ -47,14 +47,14 @@ export function ProductDetailPanel({ productId, onChatRoomEnter }: ProductDetail
   if (!productId) {
     return (
       <section className="panel p-4">
-        <EmptyState title="상품을 선택하세요." description="목록에서 상품을 고르면 상세 정보와 경매 시작 액션이 나타납니다." />
+        <EmptyState title="상품을 선택하세요" description="목록에서 상품을 고르면 상세 정보와 경매 시작 옵션이 표시됩니다." />
       </section>
     );
   }
 
   return (
     <section className="panel p-4">
-      <SectionHeader title="상품 상세" description="판매자일 때 경매를 시작할 수 있습니다." />
+      <SectionHeader title="상품 상세" description="판매자라면 경매를 시작할 수 있습니다." />
       {detailQuery.isLoading ? <div className="h-80 animate-pulse rounded-lg bg-slate-100" /> : null}
       {detailQuery.isError ? <EmptyState title="상품 상세를 불러오지 못했습니다." /> : null}
       {detailQuery.data ? (
@@ -73,7 +73,7 @@ export function ProductDetailPanel({ productId, onChatRoomEnter }: ProductDetail
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm text-slate-600">{detailQuery.data.productDescription}</p>
             <p className="mt-3 text-2xl font-black text-brand">{detailQuery.data.productPrice.toLocaleString()}원</p>
-            <p className="mt-1 text-sm text-slate-500">판매자: {detailQuery.data.sellerNickname}</p>
+            <p className="mt-1 text-sm text-slate-500">판매자 {detailQuery.data.sellerNickname}</p>
           </div>
 
           <button className="btn-muted w-full" onClick={() => enterDirectChat.mutate()} disabled={enterDirectChat.isPending} title="1:1 채팅">
@@ -93,7 +93,7 @@ export function ProductDetailPanel({ productId, onChatRoomEnter }: ProductDetail
                   <input className="input" type="number" min={1} {...register("startingPrice", { valueAsNumber: true, required: true })} />
                 </label>
                 <label>
-                  <span className="label">종료 시각</span>
+                  <span className="label">종료 시간</span>
                   <input className="input" type="datetime-local" {...register("endTime", { required: true })} />
                 </label>
               </div>

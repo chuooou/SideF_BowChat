@@ -18,7 +18,7 @@ export function ProductList({ selectedProductId, onSelect }: ProductListProps) {
     <section className="panel p-4">
       <SectionHeader
         title="상품"
-        description="product-service의 /api/products와 연결됩니다."
+        description="product-service의 /api/products와 연결합니다."
         action={
           <button className="btn-muted" onClick={() => productsQuery.refetch()} title="새로고침">
             <RefreshCcw size={16} />

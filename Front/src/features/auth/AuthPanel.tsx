@@ -3,8 +3,8 @@ import { LogIn, LogOut, UserPlus } from "lucide-react";
 import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { authEndpoints } from "../../api/endpoints";
-import { useAuthStore } from "../../store/authStore";
 import { SectionHeader } from "../../components/SectionHeader";
+import { useAuthStore } from "../../store/authStore";
 
 interface LoginFormValues {
   email: string;
@@ -68,11 +68,7 @@ export function AuthPanel() {
         description={user ? `${user.nickname} 님` : ""}
         action={
           user ? (
-            <button
-              className="btn-muted"
-              onClick={() => logoutMutation.mutate()}
-              title="로그아웃"
-            >
+            <button className="btn-muted" onClick={() => logoutMutation.mutate()} title="로그아웃">
               <LogOut size={16} />
               로그아웃
             </button>
@@ -98,17 +94,8 @@ export function AuthPanel() {
           </div>
 
           {mode === "login" ? (
-            <form
-              className="space-y-3"
-              onSubmit={loginForm.handleSubmit((values) =>
-                loginMutation.mutate(values),
-              )}
-            >
-              <Field
-                label="이메일"
-                type="email"
-                registration={loginForm.register("email", { required: true })}
-              />
+            <form className="space-y-3" onSubmit={loginForm.handleSubmit((values) => loginMutation.mutate(values))}>
+              <Field label="이메일" type="email" registration={loginForm.register("email", { required: true })} />
               <Field
                 label="비밀번호"
                 type="password"
@@ -116,36 +103,21 @@ export function AuthPanel() {
                   required: true,
                 })}
               />
-              <button
-                className="btn-primary w-full"
-                disabled={loginMutation.isPending}
-                title="로그인"
-              >
+              <button className="btn-primary w-full" disabled={loginMutation.isPending} title="로그인">
                 <LogIn size={16} />
                 로그인
               </button>
-              {loginMutation.isError ? (
-                <ErrorText message="로그인에 실패했습니다." />
-              ) : null}
+              {loginMutation.isError ? <ErrorText message="로그인에 실패했습니다." /> : null}
             </form>
           ) : (
-            <form
-              className="space-y-3"
-              onSubmit={signupForm.handleSubmit((values) =>
-                signupMutation.mutate(values),
-              )}
-            >
+            <form className="space-y-3" onSubmit={signupForm.handleSubmit((values) => signupMutation.mutate(values))}>
               <Field
                 label="닉네임"
                 registration={signupForm.register("nickName", {
                   required: true,
                 })}
               />
-              <Field
-                label="이메일"
-                type="email"
-                registration={signupForm.register("email", { required: true })}
-              />
+              <Field label="이메일" type="email" registration={signupForm.register("email", { required: true })} />
               <Field
                 label="비밀번호"
                 type="password"
@@ -153,22 +125,12 @@ export function AuthPanel() {
                   required: true,
                 })}
               />
-              <button
-                className="btn-primary w-full"
-                disabled={signupMutation.isPending}
-                title="회원가입"
-              >
+              <button className="btn-primary w-full" disabled={signupMutation.isPending} title="회원가입">
                 <UserPlus size={16} />
                 회원가입
               </button>
-              {signupMutation.isSuccess ? (
-                <p className="text-sm text-emerald-700">
-                  가입 완료. 로그인할 수 있습니다.
-                </p>
-              ) : null}
-              {signupMutation.isError ? (
-                <ErrorText message="회원가입에 실패했습니다." />
-              ) : null}
+              {signupMutation.isSuccess ? <p className="text-sm text-emerald-700">가입 완료. 로그인할 수 있습니다.</p> : null}
+              {signupMutation.isError ? <ErrorText message="회원가입에 실패했습니다." /> : null}
             </form>
           )}
         </div>

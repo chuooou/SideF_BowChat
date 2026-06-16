@@ -112,7 +112,9 @@ export function ChatPanel({ activeRoomId, onRoomSelect }: ChatPanelProps) {
         }
       />
 
-      {!accessToken ? <EmptyState title="로그인이 필요합니다." description="채팅방 목록과 WebSocket 연결은 인증 토큰이 있어야 사용할 수 있습니다." /> : null}
+      {!accessToken ? (
+        <EmptyState title="로그인이 필요합니다." description="채팅방 목록과 WebSocket 연결은 인증 토큰이 있어야 사용할 수 있습니다." />
+      ) : null}
 
       {accessToken ? (
         <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
@@ -174,7 +176,7 @@ export function ChatPanel({ activeRoomId, onRoomSelect }: ChatPanelProps) {
               </>
             ) : (
               <div className="flex flex-1 items-center justify-center p-4">
-                <EmptyState title="채팅방을 선택하세요." />
+                <EmptyState title="채팅방을 선택하세요" />
               </div>
             )}
           </div>

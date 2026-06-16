@@ -63,7 +63,7 @@ export default function App() {
               <PackagePlus size={18} className="text-brand" />
               <h2 className="text-lg font-bold">상품 등록</h2>
             </div>
-            {user ? <ProductCreateForm /> : <p className="text-sm text-slate-500">로그인 후 상품을 등록할 수 있습니다.</p>}
+            {user ? <ProductCreateForm /> : <p className="text-sm text-slate-500">로그인하면 상품을 등록할 수 있습니다.</p>}
           </section>
         </aside>
 

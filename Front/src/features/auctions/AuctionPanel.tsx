@@ -40,7 +40,7 @@ export function AuctionPanel({ selectedAuctionId, onSelectAuction, onChatRoomEnt
     <section className="panel p-4">
       <SectionHeader
         title="경매"
-        description="auction-service의 목록/입찰 API와 연결됩니다."
+        description="auction-service의 목록/입찰 API와 연결합니다."
         action={
           <button className="btn-muted" onClick={() => auctionsQuery.refetch()} title="새로고침">
             <RefreshCcw size={16} />
