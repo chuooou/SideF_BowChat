@@ -1,0 +1,52 @@
+package com.example.auctionservice.auth;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import java.security.Key;
+
+@Component
+@RequiredArgsConstructor
+public class JwtProvider {
+
+    private final JwtProperties jwtProperties;
+
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = parseClaims(token);
+
+        Long userId = claims.get(AuthConstants.JWT_CLAIM_USER_ID, Long.class);
+        String email = claims.getSubject();
+        String nickname = claims.get(AuthConstants.JWT_CLAIM_NICKNAME, String.class);
+        String role = claims.get(AuthConstants.JWT_CLAIM_ROLE, String.class);
+
+        UserPrincipal principal = new UserPrincipal(userId, email, nickname, role);
+        return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            parseClaims(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private Claims parseClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+}
