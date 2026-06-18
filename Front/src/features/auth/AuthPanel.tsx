@@ -39,12 +39,6 @@ export function AuthPanel() {
     }
   }, [meQuery.data, setUser]);
 
-  useEffect(() => {
-    if (meQuery.isError) {
-      clearSession();
-    }
-  }, [meQuery.isError, clearSession]);
-
   const loginMutation = useMutation({
     mutationFn: authEndpoints.login,
     onSuccess: (data) => {

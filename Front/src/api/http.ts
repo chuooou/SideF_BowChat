@@ -28,6 +28,17 @@ const createClient = (baseURL: string): AxiosInstance => {
     return config;
   });
 
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        useAuthStore.getState().clearSession();
+      }
+
+      return Promise.reject(error);
+    },
+  );
+
   return client;
 };
 
