@@ -8,16 +8,14 @@ import { ProductDetailPanel } from "./features/products/ProductDetailPanel";
 import { ProductList } from "./features/products/ProductList";
 import { useAuthStore } from "./store/authStore";
 
-type Tab = "market" | "auctions" | "chat";
-
-const tabs: Array<{ id: Tab; label: string; icon: typeof Boxes }> = [
+const tabs = [
   { id: "market", label: "상품", icon: Boxes },
   { id: "auctions", label: "경매", icon: Gavel },
   { id: "chat", label: "채팅", icon: MessageCircle },
-];
+] as const;
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<Tab>("market");
+  const [activeTab, setActiveTab] = useState("market");
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
   const [selectedAuctionId, setSelectedAuctionId] = useState<number | null>(null);
   const [activeRoomId, setActiveRoomId] = useState<number | null>(null);

@@ -6,17 +6,17 @@ import { authEndpoints } from "../../api/endpoints";
 import { SectionHeader } from "../../components/SectionHeader";
 import { useAuthStore } from "../../store/authStore";
 
-interface LoginFormValues {
+type LoginFormValues = {
   email: string;
   password: string;
-}
+};
 
-interface SignupFormValues extends LoginFormValues {
+type SignupFormValues = LoginFormValues & {
   nickName: string;
-}
+};
 
 export function AuthPanel() {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState("login");
   const queryClient = useQueryClient();
   const { accessToken, user, setSession, setUser, clearSession } = useAuthStore();
   const loginForm = useForm<LoginFormValues>({

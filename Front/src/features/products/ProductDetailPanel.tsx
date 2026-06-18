@@ -5,15 +5,15 @@ import { auctionEndpoints, chatEndpoints, productEndpoints } from "../../api/end
 import { EmptyState } from "../../components/EmptyState";
 import { SectionHeader } from "../../components/SectionHeader";
 
-interface ProductDetailPanelProps {
+type ProductDetailPanelProps = {
   productId: number | null;
   onChatRoomEnter: (roomId: number) => void;
-}
+};
 
-interface AuctionStartForm {
+type AuctionStartForm = {
   startingPrice: number;
   endTime: string;
-}
+};
 
 export function ProductDetailPanel({ productId, onChatRoomEnter }: ProductDetailPanelProps) {
   const queryClient = useQueryClient();

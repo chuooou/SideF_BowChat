@@ -2,14 +2,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { UserInfo } from "../types/domain";
 
-interface AuthState {
+type AuthState = {
   accessToken: string | null;
   refreshToken: string | null;
   user: UserInfo | null;
   setSession: (payload: { accessToken: string; refreshToken?: string | null; user?: UserInfo | null }) => void;
   setUser: (user: UserInfo | null) => void;
   clearSession: () => void;
-}
+};
 
 export const useAuthStore = create<AuthState>()(
   persist(

@@ -10,18 +10,18 @@ import { StatusBadge } from "../../components/StatusBadge";
 import { useAuthStore } from "../../store/authStore";
 import type { ChatResponse, ChatRoomResponse } from "../../types/domain";
 
-interface ChatPanelProps {
+type ChatPanelProps = {
   activeRoomId: number | null;
   onRoomSelect: (roomId: number) => void;
-}
+};
 
-interface GroupForm {
+type GroupForm = {
   roomName: string;
-}
+};
 
-interface MessageForm {
+type MessageForm = {
   content: string;
-}
+};
 
 export function ChatPanel({ activeRoomId, onRoomSelect }: ChatPanelProps) {
   const queryClient = useQueryClient();

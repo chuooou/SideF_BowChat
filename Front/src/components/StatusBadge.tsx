@@ -1,7 +1,7 @@
-interface StatusBadgeProps {
+type StatusBadgeProps = {
   tone?: "neutral" | "good" | "warn" | "danger";
   children: string;
-}
+};
 
 const tones = {
   neutral: "border-line bg-slate-50 text-slate-600",

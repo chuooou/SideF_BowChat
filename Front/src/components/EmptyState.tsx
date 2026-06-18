@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 
-interface EmptyStateProps {
+type EmptyStateProps = {
   title: string;
   description?: string;
   icon?: ReactNode;
-}
+};
 
 export function EmptyState({ title, description, icon }: EmptyStateProps) {
   return (

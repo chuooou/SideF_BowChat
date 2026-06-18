@@ -7,15 +7,15 @@ import { SectionHeader } from "../../components/SectionHeader";
 import { StatusBadge } from "../../components/StatusBadge";
 import type { AuctionResponse } from "../../types/domain";
 
-interface AuctionPanelProps {
+type AuctionPanelProps = {
   selectedAuctionId: number | null;
   onSelectAuction: (id: number) => void;
   onChatRoomEnter: (roomId: number) => void;
-}
+};
 
-interface BidForm {
+type BidForm = {
   bidAmount: number;
-}
+};
 
 export function AuctionPanel({ selectedAuctionId, onSelectAuction, onChatRoomEnter }: AuctionPanelProps) {
   const queryClient = useQueryClient();

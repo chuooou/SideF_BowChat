@@ -6,10 +6,10 @@ import { SectionHeader } from "../../components/SectionHeader";
 import { StatusBadge } from "../../components/StatusBadge";
 import type { ProductResponse } from "../../types/domain";
 
-interface ProductListProps {
+type ProductListProps = {
   selectedProductId: number | null;
   onSelect: (id: number) => void;
-}
+};
 
 export function ProductList({ selectedProductId, onSelect }: ProductListProps) {
   const productsQuery = useQuery({ queryKey: ["products"], queryFn: productEndpoints.list });

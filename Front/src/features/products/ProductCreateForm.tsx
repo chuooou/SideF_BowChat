@@ -2,15 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PackagePlus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { productEndpoints } from "../../api/endpoints";
-import type { ProductCreatePayload, SaleType } from "../../types/domain";
+import type { SaleType } from "../../types/domain";
 
-interface ProductFormValues {
+type ProductFormValues = {
   name: string;
   description: string;
   price: number;
   imageUrls: string;
   saleType: SaleType;
-}
+};
 
 export function ProductCreateForm() {
   const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ export function ProductCreateForm() {
   });
 
   const submit = (values: ProductFormValues) => {
-    const payload: ProductCreatePayload = {
+    const payload = {
       name: values.name,
       description: values.description,
       price: Number(values.price),

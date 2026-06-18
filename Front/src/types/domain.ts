@@ -1,25 +1,25 @@
 export type SaleType = "AUCTION" | "DIRECT";
 export type ChatRoomType = "AUCTION" | "DIRECT" | "GROUP";
 
-export interface UserInfo {
+export type UserInfo = {
   id?: number;
   userId?: number;
   email: string;
   nickname: string;
   role?: string;
   provider?: string;
-}
+};
 
-export interface AuthResponse {
+export type AuthResponse = {
   accessToken: string;
   refreshToken: string;
   refreshTokenExpiresIn: number;
   userInfo: UserInfo;
-}
+};
 
 export type CurrentUserResponse = UserInfo;
 
-export interface ProductResponse {
+export type ProductResponse = {
   id: number;
   name: string;
   description: string;
@@ -28,9 +28,9 @@ export interface ProductResponse {
   saleType: SaleType;
   createdAt: string;
   updatedAt: string;
-}
+};
 
-export interface ProductDetail {
+export type ProductDetail = {
   productId: number;
   productName: string;
   productDescription: string;
@@ -41,17 +41,17 @@ export interface ProductDetail {
   modifiedDate: string;
   saleType: SaleType;
   isSeller: boolean;
-}
+};
 
-export interface ProductCreatePayload {
+export type ProductCreatePayload = {
   name: string;
   description: string;
   price: number;
   imageUrls: string[];
   saleType: SaleType;
-}
+};
 
-export interface AuctionResponse {
+export type AuctionResponse = {
   id: number;
   productId: number;
   currentPrice: number;
@@ -60,43 +60,43 @@ export interface AuctionResponse {
   endTime: string;
   winnerId: number | null;
   closed: boolean;
-}
+};
 
-export interface StartAuctionPayload {
+export type StartAuctionPayload = {
   startingPrice: number;
   endTime: string;
-}
+};
 
-export interface BidPayload {
+export type BidPayload = {
   bidAmount: number;
-}
+};
 
-export interface ChatParticipantResponse {
+export type ChatParticipantResponse = {
   userId: number;
   nickname: string;
   role?: string;
-}
+};
 
-export interface ChatRoomResponse {
+export type ChatRoomResponse = {
   roomId: number;
   roomName: string;
   type: ChatRoomType;
   participants: ChatParticipantResponse[];
   productId: number | null;
-}
+};
 
-export interface EnterChatResponse {
+export type EnterChatResponse = {
   roomId: number;
   roomType: ChatRoomType;
   roomName: string;
-}
+};
 
 export type ChatRoomEnterPayload =
   | { roomType: "AUCTION"; productId: number }
   | { roomType: "DIRECT"; productId: number }
   | { roomType: "GROUP"; roomName: string };
 
-export interface ChatResponse {
+export type ChatResponse = {
   id: string;
   roomId: number;
   senderId: number;
@@ -104,4 +104,4 @@ export interface ChatResponse {
   content: string;
   messageType: string;
   createDate: string;
-}
+};
