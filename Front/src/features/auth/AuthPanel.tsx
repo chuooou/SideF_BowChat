@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogIn, LogOut, UserPlus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { authEndpoints } from "../../api/endpoints";
 import { SectionHeader } from "../../components/SectionHeader";
@@ -18,7 +18,7 @@ interface SignupFormValues extends LoginFormValues {
 export function AuthPanel() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const queryClient = useQueryClient();
-  const { accessToken, user, setSession, clearSession } = useAuthStore();
+  const { accessToken, user, setSession, setUser, clearSession } = useAuthStore();
   const loginForm = useForm<LoginFormValues>({
     defaultValues: { email: "", password: "" },
   });
@@ -26,12 +26,24 @@ export function AuthPanel() {
     defaultValues: { email: "", password: "", nickName: "" },
   });
 
-  useQuery({
+  const meQuery = useQuery({
     queryKey: ["auth", "me", accessToken],
     queryFn: authEndpoints.me,
     enabled: Boolean(accessToken),
     retry: false,
   });
+
+  useEffect(() => {
+    if (meQuery.data) {
+      setUser(meQuery.data);
+    }
+  }, [meQuery.data, setUser]);
+
+  useEffect(() => {
+    if (meQuery.isError) {
+      clearSession();
+    }
+  }, [meQuery.isError, clearSession]);
 
   const loginMutation = useMutation({
     mutationFn: authEndpoints.login,
@@ -41,6 +53,7 @@ export function AuthPanel() {
         refreshToken: data.refreshToken,
         user: data.userInfo,
       });
+      loginForm.reset({ email: "", password: "" });
       queryClient.invalidateQueries();
     },
   });
@@ -65,10 +78,10 @@ export function AuthPanel() {
     <section className="panel p-4">
       <SectionHeader
         title="계정"
-        description={user ? `${user.nickname} 님` : ""}
+        description={user ? `${user.nickname} 님` : "로그인하면 상품 등록, 입찰, 채팅을 사용할 수 있습니다."}
         action={
           user ? (
-            <button className="btn-muted" onClick={() => logoutMutation.mutate()} title="로그아웃">
+            <button className="btn-muted" onClick={() => logoutMutation.mutate()} disabled={logoutMutation.isPending} title="로그아웃">
               <LogOut size={16} />
               로그아웃
             </button>
@@ -80,12 +93,14 @@ export function AuthPanel() {
         <div>
           <div className="mb-4 grid grid-cols-2 rounded-md border border-line bg-slate-50 p-1">
             <button
+              type="button"
               className={`h-9 rounded text-sm font-semibold ${mode === "login" ? "bg-white shadow-sm" : "text-slate-500"}`}
               onClick={() => setMode("login")}
             >
               로그인
             </button>
             <button
+              type="button"
               className={`h-9 rounded text-sm font-semibold ${mode === "signup" ? "bg-white shadow-sm" : "text-slate-500"}`}
               onClick={() => setMode("signup")}
             >
@@ -105,9 +120,9 @@ export function AuthPanel() {
               />
               <button className="btn-primary w-full" disabled={loginMutation.isPending} title="로그인">
                 <LogIn size={16} />
-                로그인
+                {loginMutation.isPending ? "로그인 중" : "로그인"}
               </button>
-              {loginMutation.isError ? <ErrorText message="로그인에 실패했습니다." /> : null}
+              {loginMutation.isError ? <ErrorText message="로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요." /> : null}
             </form>
           ) : (
             <form className="space-y-3" onSubmit={signupForm.handleSubmit((values) => signupMutation.mutate(values))}>
@@ -127,9 +142,9 @@ export function AuthPanel() {
               />
               <button className="btn-primary w-full" disabled={signupMutation.isPending} title="회원가입">
                 <UserPlus size={16} />
-                회원가입
+                {signupMutation.isPending ? "가입 중" : "회원가입"}
               </button>
-              {signupMutation.isSuccess ? <p className="text-sm text-emerald-700">가입 완료. 로그인할 수 있습니다.</p> : null}
+              {signupMutation.isSuccess ? <p className="text-sm text-emerald-700">가입 완료. 바로 로그인할 수 있습니다.</p> : null}
               {signupMutation.isError ? <ErrorText message="회원가입에 실패했습니다." /> : null}
             </form>
           )}
@@ -157,7 +172,7 @@ function Field({
   return (
     <label>
       <span className="label">{label}</span>
-      <input className="input" type={type} {...registration} />
+      <input className="input" type={type} autoComplete={type === "password" ? "current-password" : undefined} {...registration} />
     </label>
   );
 }
